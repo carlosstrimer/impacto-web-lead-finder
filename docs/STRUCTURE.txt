@@ -1,0 +1,21 @@
+impacto-web-lead-finder/
+│
+├── manifest.json
+├── background.js       # Service Worker: orquestra filas, abas e extração
+├── content.js          # Scraper: lê o DOM do Maps, detecta bloqueios e envia dados
+│
+├── popup.html          # Popup rápido (Iniciar/Pausar/Status)
+├── popup.css
+├── popup.js
+│
+├── dashboard.html      # Dashboard completo (Tabela, Filtros, Histórico, Config)
+├── dashboard.css
+├── dashboard.js
+│
+├── modules/
+│   ├── db.js           # Banco de dados IndexedDB (Leads e Histórico)
+│   ├── exporter.js     # Exportação CSV/JSON
+│   ├── scoring.js      # Cálculo de Lead Score e geração de copy
+│   └── utils.js        # Normalização de telefone e seletores do Maps
+│
+└── README.md
