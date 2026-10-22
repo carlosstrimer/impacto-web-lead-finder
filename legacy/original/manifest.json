@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Empresas Sem Site — Google Maps",
+  "version": "1.0.0",
+  "description": "Extrai do Google Maps empresas sem site real: sem site, só WhatsApp, só redes sociais ou site quebrado.",
+  "permissions": ["activeTab", "tabs", "scripting", "storage"],
+  "host_permissions": [
+    "https://www.google.com/maps/*",
+    "https://maps.google.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Empresas Sem Site"
+  }
+}
