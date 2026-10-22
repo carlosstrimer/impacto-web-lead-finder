@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Impacto Web - Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">Impacto Web<br><small>Lead Finder</small></div>
+    <nav>
+      <button class="active" onclick="switchTab('leads')">Leads</button>
+      <button onclick="switchTab('history')">Histórico</button>
+      <button onclick="switchTab('config')">Configurações</button>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <!-- ABA LEADS -->
+    <section id="tab-leads" class="tab active">
+      <header class="top-bar">
+        <input type="text" id="search" placeholder="Buscar empresa ou categoria...">
+        <div class="actions">
+          <button onclick="exportData('csv')" class="btn">Exportar CSV</button>
+          <button onclick="exportData('json')" class="btn">Exportar JSON</button>
+        </div>
+      </header>
+      
+      <div class="filters">
+        <select id="filter-presenca">
+          <option value="">Todas as Presenças</option>
+          <option value="SEM_SITE">Sem site</option>
+          <option value="SO_WHATSAPP">Só WhatsApp</option>
+          <option value="SO_INSTAGRAM">Só Instagram</option>
+          <option value="SITE_INDISPONIVEL">Site indisponível</option>
+        </select>
+        <select id="filter-score">
+          <option value="">Todos os Scores</option>
+          <option value="70">Score Alto (+70)</option>
+          <option value="40">Score Médio (+40)</option>
+        </select>
+        <select id="filter-status">
+          <option value="">Todos os Status</option>
+          <option value="Novo">Novo</option>
+          <option value="Aprovado">Aprovado</option>
+          <option value="Contatado">Contatado</option>
+          <option value="Cliente">Cliente</option>
+        </select>
+      </div>
+
+      <div class="table-container">
+        <table id="leads-table">
+          <thead>
+            <tr>
+              <th>Empresa</th>
+              <th>Categoria</th>
+              <th>Telefone</th>
+              <th>Presença</th>
+              <th>Nota</th>
+              <th>Avaliações</th>
+              <th>Score</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="leads-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ABA HISTÓRICO -->
+    <section id="tab-history" class="tab">
+      <h2>Histórico de Extrações</h2>
+      <table class="table-simple">
+        <thead>
+          <tr><th>Data</th><th>Consulta</th><th>Encontrados</th></tr>
+        </thead>
+        <tbody id="history-body"></tbody>
+      </table>
+    </section>
+
+    <!-- ABA CONFIGURAÇÕES -->
+    <section id="tab-config" class="tab">
+      <h2>Configurações</h2>
+      <div class="config-box">
+        <label>Seu nome (para gerar abordagens)</label>
+        <input type="text" id="user-name" value="Consultor Impacto Web">
+        <button onclick="saveConfig()" class="btn primary">Salvar</button>
+      </div>
+      <div class="config-box danger">
+        <h3>Zona de Perigo</h3>
+        <button onclick="clearDatabase()" class="btn danger">Apagar todos os leads</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL DE EDIÇÃO -->
+  <dialog id="modal-lead">
+    <form method="dialog">
+      <h3>Editar Lead</h3>
+      <input type="hidden" id="edit-id">
+      <label>Status</label>
+      <select id="edit-status">
+        <option value="Novo">Novo</option>
+        <option value="Aprovado">Aprovado para prospecção</option>
+        <option value="Contatado">Contatado</option>
+        <option value="Respondeu">Respondeu</option>
+        <option value="Cliente">Cliente</option>
+        <option value="Ignorar">Ignorar</option>
+      </select>
+      <label>Observação</label>
+      <textarea id="edit-obs" rows="3"></textarea>
+      <div class="modal-actions">
+        <button value="cancel" class="btn">Cancelar</button>
+        <button value="save" class="btn primary" onclick="saveLead()">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>
