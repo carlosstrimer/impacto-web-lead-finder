@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <h1>Impacto Web</h1>
+    <span class="badge">Lead Finder</span>
+  </header>
+  
+  <div class="form-group">
+    <label>Pesquisas (uma por linha)</label>
+    <textarea id="query" rows="3" placeholder="barbearia em Goiânia&#10;academia em Goiânia"></textarea>
+  </div>
+  
+  <div class="row">
+    <div class="col">
+      <label>Limite</label>
+      <input type="number" id="limit" value="50" min="1">
+    </div>
+    <div class="col">
+      <label>Modo</label>
+      <select id="mode">
+        <option value="limit">Limite definido</option>
+        <option value="infinite">Até o fim</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button id="btn-start" class="primary">Iniciar</button>
+    <button id="btn-pause" class="secondary" disabled>Pausar</button>
+    <button id="btn-stop" class="secondary" disabled>Parar</button>
+  </div>
+
+  <div class="status-box">
+    <div id="status-text">Aguardando...</div>
+    <div class="progress-bar"><div id="progress-fill"></div></div>
+  </div>
+
+  <button id="btn-dashboard" class="link">Abrir Dashboard Completo</button>
+
+  <script src="popup.js"></script>
+</body>
+</html>
