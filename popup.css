@@ -1,0 +1,19 @@
+body { width: 320px; padding: 16px; font-family: system-ui, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; }
+header { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+h1 { font-size: 18px; margin: 0; }
+.badge { background: #2563eb; font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+label { font-size: 11px; color: #94a3b8; display: block; margin-bottom: 4px; }
+textarea, input, select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: white; font-size: 12px; box-sizing: border-box; margin-bottom: 10px; }
+textarea:focus, input:focus { border-color: #2563eb; outline: none; }
+.row { display: flex; gap: 8px; }
+.col { flex: 1; }
+.actions { display: flex; gap: 6px; margin-top: 10px; }
+button { flex: 1; padding: 8px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 12px; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.primary { background: #2563eb; color: white; }
+.secondary { background: #334155; color: white; }
+.link { background: none; color: #60a5fa; text-decoration: underline; margin-top: 12px; width: 100%; font-size: 11px; }
+.status-box { margin-top: 16px; background: #1e293b; padding: 10px; border-radius: 6px; }
+#status-text { font-size: 11px; margin-bottom: 6px; }
+.progress-bar { height: 4px; background: #334155; border-radius: 2px; overflow: hidden; }
+#progress-fill { height: 100%; background: #2563eb; width: 0%; transition: width 0.3s; }
