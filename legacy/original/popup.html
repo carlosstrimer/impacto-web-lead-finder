@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Empresas Sem Site</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="header">
+    <h1>Empresas Sem Site</h1>
+    <p class="subtitle">Google Maps · extração inteligente</p>
+  </header>
+  <section class="form">
+    <label for="keyword">Palavra-chave e cidade</label>
+    <input id="keyword" type="text" placeholder="Ex: restaurante em São Paulo">
+    <div class="row">
+      <div class="col">
+        <label for="limit">Quantidade máxima</label>
+        <input id="limit" type="number" min="1" max="500" value="20">
+      </div>
+      <div class="col">
+        <label for="speed">Velocidade</label>
+        <select id="speed">
+          <option value="slow">Lenta</option>
+          <option value="normal" selected>Normal</option>
+          <option value="fast">Rápida</option>
+        </select>
+      </div>
+    </div>
+    <fieldset class="checks">
+      <legend>Incluir no resultado</legend>
+      <label><input type="checkbox" id="inc-sem-site" checked> Sem site</label>
+      <label><input type="checkbox" id="inc-so-whatsapp" checked> Só WhatsApp</label>
+      <label><input type="checkbox" id="inc-so-redes" checked> Só redes sociais</label>
+      <label><input type="checkbox" id="inc-site-quebrado" checked> Site quebrado</label>
+    </fieldset>
+    <div class="actions">
+      <button id="btn-start" class="primary">Iniciar Extração</button>
+      <button id="btn-stop" class="secondary" disabled>Parar</button>
+    </div>
+  </section>
+  <section class="progress-section">
+    <div class="progress-info"><span id="progress-text">0 de 0 empresas</span></div>
+    <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+  </section>
+  <section class="summary" id="summary">Sem site: 0 | Só WhatsApp: 0 | Só redes: 0 | Site quebrado: 0</section>
+  <section class="log-section">
+    <div class="log-header"><span>Log</span><button id="btn-clear-log" class="link" type="button">limpar</button></div>
+    <div id="log" class="log"></div>
+  </section>
+  <section class="exports">
+    <button id="btn-csv" class="secondary" disabled>Baixar CSV</button>
+    <button id="btn-json" class="secondary" disabled>Baixar JSON</button>
+  </section>
+  <script src="popup.js"></script>
+</body>
+</html>
