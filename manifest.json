@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Impacto Web Lead Finder",
+  "version": "2.0.0",
+  "description": "Ferramenta profissional de prospecção B2B no Google Maps.",
+  "permissions": [
+    "storage",
+    "unlimitedStorage",
+    "tabs",
+    "scripting",
+    "activeTab",
+    "downloads"
+  ],
+  "host_permissions": [
+    "https://www.google.com/maps/*",
+    "https://maps.google.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Impacto Web Lead Finder"
+  }
+}
