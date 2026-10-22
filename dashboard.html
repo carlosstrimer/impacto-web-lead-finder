@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Impacto Web - Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <!-- Biblioteca local para geração de XLSX com estilos -->
+  <script src="lib/xlsx.bundle.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">Impacto Web<br><small>Lead Finder</small></div>
+    <nav>
+      <button class="active" onclick="switchTab('leads')">Leads</button>
+      <button onclick="switchTab('history')">Histórico</button>
+      <button onclick="switchTab('config')">Configurações</button>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <!-- ABA LEADS -->
+    <section id="tab-leads" class="tab active">
+      <header class="top-bar">
+        <input type="text" id="search" placeholder="Buscar empresa ou categoria...">
+        <div class="actions">
+          <button onclick="openExportModal()" class="btn primary">📊 Exportar Planilha</button>
+          <div class="dropdown">
+            <button class="btn">Mais opções ▾</button>
+            <div class="dropdown-content">
+              <a href="#" onclick="exportData('csv')">Exportar CSV</a>
+              <a href="#" onclick="exportData('json')">Exportar JSON</a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <div class="filters">
+        <select id="filter-presenca">
+          <option value="">Todas as Presenças</option>
+          <option value="SEM_SITE">Sem site</option>
+          <option value="SO_WHATSAPP">Só WhatsApp</option>
+          <option value="SO_INSTAGRAM">Só Instagram</option>
+          <option value="SITE_INDISPONIVEL">Site indisponível</option>
+        </select>
+        <select id="filter-score">
+          <option value="">Todos os Scores</option>
+          <option value="70">Score Alto (+70)</option>
+          <option value="40">Score Médio (+40)</option>
+        </select>
+        <select id="filter-status">
+          <option value="">Todos os Status</option>
+          <option value="Novo">Novo</option>
+          <option value="Aprovado">Aprovado</option>
+          <option value="Contatado">Contatado</option>
+          <option value="Cliente">Cliente</option>
+        </select>
+      </div>
+
+      <div class="table-container">
+        <table id="leads-table">
+          <thead>
+            <tr>
+              <th style="width: 40px; text-align: center;"><input type="checkbox" id="select-all"></th>
+              <th>Empresa</th>
+              <th>Categoria</th>
+              <th>Telefone</th>
+              <th>Presença</th>
+              <th>Nota</th>
+              <th>Avaliações</th>
+              <th>Score</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="leads-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ABA HISTÓRICO -->
+    <section id="tab-history" class="tab">
+      <h2>Histórico de Extrações</h2>
+      <table class="table-simple">
+        <thead>
+          <tr><th>Data</th><th>Consulta</th><th>Encontrados</th></tr>
+        </thead>
+        <tbody id="history-body"></tbody>
+      </table>
+    </section>
+
+    <!-- ABA CONFIGURAÇÕES -->
+    <section id="tab-config" class="tab">
+      <h2>Configurações</h2>
+      <div class="config-box">
+        <label>Seu nome (para gerar abordagens)</label>
+        <input type="text" id="user-name" value="Consultor Impacto Web">
+        <button onclick="saveConfig()" class="btn primary">Salvar</button>
+      </div>
+      <div class="config-box danger">
+        <h3>Zona de Perigo</h3>
+        <button onclick="clearDatabase()" class="btn danger">Apagar todos os leads</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL DE EDIÇÃO DE LEAD -->
+  <dialog id="modal-lead">
+    <form method="dialog">
+      <h3>Editar Lead</h3>
+      <input type="hidden" id="edit-id">
+      <label>Status</label>
+      <select id="edit-status">
+        <option value="Novo">Novo</option>
+        <option value="Avaliar">Avaliar</option>
+        <option value="Aprovado">Aprovado para prospecção</option>
+        <option value="Contatado">Contatado</option>
+        <option value="Respondeu">Respondeu</option>
+        <option value="Interessado">Interessado</option>
+        <option value="Negociação">Negociação</option>
+        <option value="Cliente">Cliente</option>
+        <option value="Sem interesse">Sem interesse</option>
+        <option value="Ignorar">Ignorar</option>
+      </select>
+      <label>Observação</label>
+      <textarea id="edit-obs" rows="3"></textarea>
+      <div class="modal-actions">
+        <button value="cancel" class="btn">Cancelar</button>
+        <button value="save" class="btn primary" onclick="saveLead()">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- MODAL DE EXPORTAÇÃO XLSX -->
+  <dialog id="modal-export">
+    <div class="export-modal-content">
+      <h3>EXPORTAR LEADS</h3>
+      <p>O que deseja exportar?</p>
+      
+      <div class="radio-group">
+        <label><input type="radio" name="export-scope" value="all" checked> Todos os leads (<span id="count-all">0</span>)</label>
+        <label><input type="radio" name="export-scope" value="filtered"> Apenas leads filtrados (<span id="count-filtered">0</span>)</label>
+        <label><input type="radio" name="export-scope" value="selected"> Apenas selecionados (<span id="count-selected">0</span>)</label>
+      </div>
+
+      <p class="mt-10">Incluir na planilha:</p>
+      <div class="checkbox-group">
+        <label><input type="checkbox" id="chk-summary" checked> Aba de Resumo</label>
+        <label><input type="checkbox" id="chk-history" checked> Histórico de pesquisas</label>
+        <label><input type="checkbox" id="chk-links" checked> Links clicáveis</label>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn" onclick="document.getElementById('modal-export').close()">Cancelar</button>
+        <button class="btn primary" id="btn-generate-xlsx" onclick="generateXLSX()">Gerar XLSX</button>
+      </div>
+      
+      <!-- Indicador de Progresso -->
+      <div id="export-progress" class="hidden">
+        <div class="spinner"></div>
+        <p id="export-progress-text">Gerando planilha...</p>
+      </div>
+    </div>
+  </dialog>
+
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>
